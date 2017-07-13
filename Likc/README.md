@@ -1,15 +1,19 @@
 # MoreIf
  На входе мы имеем файл elf, в функции main видим странное сравнение ‘A’==’A‘, которое всегда приводит к вызову функции FirstPart
+ 
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image1.png)
 Данная функция возвращает символ ‘l’
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image2.png)
 В самой функции идет сравнение с 3 символами
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image3.png)
 В итоге получаем строку 
 
 > Altay
 
 что является началом флага, затем переходим в функцию SecondPart
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image4.png)
 Видим перемещение в eax символов 
 > {too
@@ -27,15 +31,20 @@
 
 # BlackSquare
 Запускаем приложение, видим gui и черный квадрат
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image6.png)
 Если популярная легенда, что под черным квадратом нарисовано что-то ещё, на эту легенду есть намек в описании задания.
 По составу файлов в паке с программой ясно, что данная программа написана на Qt, и для вывода изображения там обычно используется QGraphicsScene, смотрим на инициализацию QGraphicsScene  и видим, что их инициализируется сразу две, причем с разницей в 4 байта.
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image7.png)
  Одна необходима для вывода черного квадрата, а на второй с помощью QPainter рисуются различные элементы, в примере ниже - это линии.
+ 
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image8.png)
 Перейдем к выводу QGraphicsScene  на экран
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image9.png)
 Заменим QGraphicsScene, заменив байт 18h(24) на 1Ch(28)
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image10.png)
 
 ### Flag:
@@ -43,10 +52,13 @@
 
 # Atavism
 На входе имеем elf файл, который принимает аргумент при запуске
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image11.png)
 Далее берется первый элемент и параметром отправляется в функцию to128
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image12.png)
 Затем, в цикле проверяется равенства каждого символа после обработки в to128 и константных символов в начале (их в дальнейшем и копируем в декодер).
+
 ![](https://bitbucket.org/Likc/writeupsaltay2017/downloads/image13.png)
 Проверим, как именно обрабатывается строка в функции to 128
 Проанализировав алгоритм понимаем, что это преобразование в base128 (оно аналогично с прочими base).  Далее приведен алгоритм декодинга.
